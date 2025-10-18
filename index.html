@@ -1,309 +1,285 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dr. Alfredo Pio De Roda Elementary School</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
+    :root {
+      --primary: #004aad;
+      --secondary: #f4f6fb;
+      --card: #ffffff;
+      --text-dark: #333;
+      --accent: #004aad;
+    }
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6fb;
+      font-family: Arial, sans-serif;
+      background-color: var(--secondary);
       margin: 0;
-      color: #222;
+      padding: 0;
+      color: var(--text-dark);
     }
+
     header {
-      background: #2f66c7;
-      color: #fff;
-      padding: 1.5rem;
+      background: var(--primary);
+      color: white;
       text-align: center;
+      padding: 1rem 0;
     }
+
     main {
-      padding: 1.5rem;
-      max-width: 1000px;
-      margin: 0 auto;
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
     }
-    .section {
-      background: #fff;
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.5rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
       padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      margin-bottom: 1rem;
-    }
-    .teacher-card {
-      display: inline-block;
-      width: 180px;
-      margin: 8px;
-      padding: 10px;
       text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .announcement {
+      background: var(--card);
+      border-left: 5px solid var(--accent);
+      padding: 1rem;
+      margin-bottom: 1rem;
       border-radius: 8px;
     }
-    .teacher-card img {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    form {
-      max-width: 460px;
-      margin: 0 auto;
+
+    form label {
       display: block;
+      margin-top: 10px;
     }
-    input,
-    select,
-    button {
+
+    form input, form select {
       width: 100%;
-      padding: 10px;
-      margin-top: 8px;
+      padding: 8px;
+      margin-top: 4px;
       border-radius: 6px;
       border: 1px solid #ccc;
     }
-    .btn {
-      background: #2f66c7;
-      color: #fff;
+
+    form button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: var(--primary);
+      color: white;
       border: none;
-      cursor: pointer;
-      padding: 10px;
-    }
-    .btn-secondary {
-      background: #28a745;
-      color: #fff;
-      border: none;
+      border-radius: 6px;
       cursor: pointer;
     }
-    small {
-      color: #666;
+
+    form button:hover {
+      background: #003080;
     }
-    .social-card {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 350px;
-  text-align: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-  margin: 1rem auto;
-}
 
-.social-card h3 {
-  margin-bottom: 15px;
-  color: #004aad;
-}
-
-.social-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.social-btn {
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.2s;
-}
-
-/* Platform Colors */
-.social-btn.fb { background: #1877f2; }
-.social-btn.tw { background: #1da1f2; }
-.social-btn.ig { background: #c32aa3; }
-.social-btn.mail { background: #dd4b39; }
-
-.social-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
-}
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 0.7rem 0;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Dr. Alfredo Pio De Roda Elementary School</h1>
-    <div>Official School Portal</div>
+    <p>Official School Portal</p>
   </header>
 
   <main>
-    <!-- Announcements -->
-    <section class="section" id="announcement-section">
-      <h2>Latest Announcement</h2>
-      <div id="latest-announcement">Loading announcement…</div>
-    </section>
-
     <!-- About Us -->
-    <section class="section" id="about-section">
+    <section id="about">
       <h2>About Us</h2>
       <p>
-        Dr. Alfredo Pio De Roda Elementary School is a public institution dedicated to fostering
-        holistic growth and academic excellence among young learners. 
-        Our school takes pride in nurturing the values of discipline, integrity, and compassion,
-        preparing students to become responsible citizens and lifelong learners.
+        Dr. Alfredo Pio De Roda Elementary School is dedicated to providing quality education and fostering
+        a nurturing environment for young learners. Our mission is to develop students’ potential and instill
+        in them the values of excellence, integrity, and service.
       </p>
     </section>
 
     <!-- Vision & Mission -->
-    <section class="section" id="vision-mission-section">
-      <h2>Vision & Mission</h2>
-      <h3>Vision</h3>
+    <section id="vision-mission">
+      <h2>Vision</h2>
       <p>
-        A learning community committed to excellence, empowering every learner to reach their
-        full potential in a safe, inclusive, and supportive environment.
+        A center of excellence for primary education, cultivating learners who are globally competitive,
+        compassionate, and lifelong learners.
       </p>
-      <h3>Mission</h3>
+
+      <h2>Mission</h2>
       <p>
-        To provide quality basic education through effective teaching, continuous innovation,
-        and active community involvement — ensuring every child develops the knowledge, skills,
-        and values necessary for success in life.
+        To provide accessible and holistic education that empowers students to reach their fullest potential
+        and contribute meaningfully to society.
       </p>
     </section>
 
-    <!-- Faculty -->
-    <section class="section" id="teachers-section">
+    <!-- Announcements -->
+    <section id="announcements">
+      <h2>Announcements</h2>
+      <div id="announcementList">Loading announcements...</div>
+    </section>
+
+    <!-- Faculty & Staff (Dynamic) -->
+    <section id="faculty">
       <h2>Faculty & Staff</h2>
-      <div id="teachers">Loading teachers…</div>
+      <div id="teachers" class="card-grid">Loading teachers...</div>
     </section>
 
-    <!-- Enrollment -->
-    <section class="section" id="enroll-section">
+    <!-- Online Enrollment -->
+    <section id="enroll-section">
       <h2>Online Enrollment</h2>
       <form id="enrollForm">
-        <input id="parentName" type="text" placeholder="Name of Parent" required>
-        <input id="studentName" type="text" placeholder="Name of Student" required>
-        <select id="gradeLevel" required>
-          <option value="">Select Grade Level</option>
+        <label for="parentName">Name of Parent:</label>
+        <input type="text" id="parentName" name="parentName" required>
+
+        <label for="studentName">Name of Student:</label>
+        <input type="text" id="studentName" name="studentName" required>
+
+        <label for="gradeLevel">Grade Level:</label>
+        <select id="gradeLevel" name="gradeLevel" required>
+          <option value="">Select Grade</option>
           <option value="Kinder">Kinder</option>
-          <option value="G1">G1</option>
-          <option value="G2">G2</option>
-          <option value="G3">G3</option>
-          <option value="G4">G4</option>
-          <option value="G5">G5</option>
-          <option value="G6">G6</option>
+          <option value="G1">Grade 1</option>
+          <option value="G2">Grade 2</option>
+          <option value="G3">Grade 3</option>
+          <option value="G4">Grade 4</option>
+          <option value="G5">Grade 5</option>
+          <option value="G6">Grade 6</option>
         </select>
-        <input id="lrn" type="text" placeholder="LRN (Learner Reference Number)" required>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button type="button" class="btn-secondary" id="uploadDocsBtn">Upload Required Documents</button>
-        </div>
-        <button class="btn" type="submit">Submit Enrollment</button>
+
+        <label for="lrn">LRN:</label>
+        <input type="text" id="lrn" name="lrn" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,15}" placeholder="e.g., 09171234567">
+
+        <button type="submit">Submit Enrollment</button>
       </form>
-      <div id="enroll-msg" style="margin-top:8px"></div>
     </section>
-    <div class="social-card">
-  <h3>Connect With Us</h3>
-  <div class="social-links">
-    <a href="https://www.facebook.com/DepEDTayoDAPRES108012" target="_blank" class="social-btn fb">Facebook</a>
-    <a href="mailto:arhanmeir.obrero@gmail.com" class="social-btn mail">Email</a>
-  </div>
-</div>
   </main>
 
-  <!-- Firebase (modular) -->
+  <footer>
+    © 2025 Dr. Alfredo Pio De Roda Elementary School. All Rights Reserved.
+  </footer>
+
+  <!-- Firebase & JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAYpXaL6oNhuX3LWAinx7LmhrAozfVzCvk",
       authDomain: "dr-de-roda-lr-portal.firebaseapp.com",
-      databaseURL: "https://dr-de-roda-lr-portal-default-rtdb.firebaseio.com/",
       projectId: "dr-de-roda-lr-portal",
       storageBucket: "dr-de-roda-lr-portal.firebasestorage.app",
       messagingSenderId: "1074205661200",
       appId: "1:1074205661200:web:f42d20c85f8600728cd295",
-      measurementId: "G-MJF7Z2DYHS"
+      measurementId: "G-MJF7Z2DYHS",
+      databaseURL: "https://dr-de-roda-lr-portal-default-rtdb.firebaseio.com/"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Announcements
-    const annQuery = query(ref(db, "announcements"), orderByChild("date"), limitToLast(1));
-    onValue(annQuery, snap => {
-      const container = document.getElementById("latest-announcement");
-      if (!snap.exists()) {
-        container.innerHTML = "<strong>No Announcements Yet!</strong>";
-        return;
-      }
-      let html = "";
-      snap.forEach(child => {
-        const a = child.val();
-        const d = a.date ? new Date(a.date).toLocaleString() : "";
-        html += `<h3>${escapeHtml(a.title || "")}</h3>
-                 <p>${escapeHtml(a.message || a.content || "")}</p>
-                 <small>${escapeHtml(d)}</small>`;
-      });
-      container.innerHTML = html;
-    });
-
-    // Teachers
-    onValue(ref(db, "teachers"), snap => {
-      const container = document.getElementById("teachers");
-      container.innerHTML = "";
-      if (!snap.exists()) {
-        container.innerHTML = "<em>No teachers yet.</em>";
-        return;
-      }
-      snap.forEach(child => {
-        const t = child.val();
-        container.innerHTML += `
-          <div class="teacher-card">
-            <img src="${escapeHtml(t.photo || 'https://via.placeholder.com/96')}" alt="teacher photo">
-            <div><strong>${escapeHtml(t.name || '')}</strong></div>
-            <div><small>${escapeHtml(t.position || '')}</small></div>
-          </div>`;
-      });
-    });
-
-    // Enrollment
-    const enrollForm = document.getElementById("enrollForm");
-    enrollForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const parentName = document.getElementById("parentName").value.trim();
-      const studentName = document.getElementById("studentName").value.trim();
-      const grade = document.getElementById("gradeLevel").value;
-      const lrn = document.getElementById("lrn").value.trim();
-
-      if (!grade || !lrn) {
-        showMsg("Please select a grade and enter an LRN.", true);
-        return;
-      }
-
-      const payload = {
-        parentName,
-        studentName,
-        grade,
-        lrn,
-        date: new Date().toISOString()
-      };
-
+    // Load announcements
+    async function loadAnnouncements() {
+      const container = document.getElementById("announcementList");
+      container.innerHTML = "Loading announcements...";
       try {
-        await set(ref(db, `enrollments/${grade}/${lrn}`), payload);
-        showMsg("Enrollment submitted successfully.", false);
-        enrollForm.reset();
+        const res = await fetch(firebaseConfig.databaseURL + "announcements.json");
+        const data = await res.json();
+        container.innerHTML = "";
+
+        if (!data) {
+          container.innerHTML = "<p>No Announcements Yet!</p>";
+          return;
+        }
+
+        // Sort by most recent (assuming timestamp property)
+        const sorted = Object.values(data).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        sorted.forEach(a => {
+          const div = document.createElement("div");
+          div.className = "announcement";
+          div.innerHTML = `<h3>${a.title || "Untitled"}</h3><p>${a.content || ""}</p>`;
+          container.appendChild(div);
+        });
       } catch (err) {
-        console.error(err);
-        showMsg("Failed to submit enrollment. Check console.", true);
+        container.innerHTML = "<p>Error loading announcements.</p>";
       }
-    });
-
-    document.getElementById("uploadDocsBtn").addEventListener("click", () => {
-      window.open("https://forms.gle/YOUR_GOOGLE_FORM_LINK", "_blank");
-    });
-
-    function showMsg(text, isError) {
-      const el = document.getElementById("enroll-msg");
-      el.style.color = isError ? "crimson" : "green";
-      el.textContent = text;
-      setTimeout(() => (el.textContent = ""), 7000);
     }
 
-    function escapeHtml(s) {
-      if (!s) return "";
-      return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-    }
+    // Load teachers dynamically
+    const teachersContainer = document.getElementById("teachers");
+    const teachersRef = ref(db, "teachers");
+    onValue(teachersRef, (snapshot) => {
+      teachersContainer.innerHTML = "";
+      if (!snapshot.exists()) {
+        teachersContainer.innerHTML = "<p>No teachers found.</p>";
+        return;
+      }
+
+      snapshot.forEach(child => {
+        const t = child.val();
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `<h3>${t.name}</h3><p>${t.position}</p>`;
+        teachersContainer.appendChild(div);
+      });
+    });
+
+    // Enrollment form submit
+    const enrollForm = document.getElementById("enrollForm");
+    enrollForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const parentName = document.getElementById("parentName").value;
+      const studentName = document.getElementById("studentName").value;
+      const gradeLevel = document.getElementById("gradeLevel").value;
+      const lrn = document.getElementById("lrn").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+
+      if (!gradeLevel) return alert("Please select a grade level.");
+
+      const gradeRef = ref(db, `enrollments/${gradeLevel}`);
+      push(gradeRef, { parentName, studentName, gradeLevel, lrn, email, phone, timestamp: Date.now() })
+        .then(() => {
+          alert("Enrollment submitted successfully!");
+          enrollForm.reset();
+        })
+        .catch(err => alert("Error: " + err.message));
+    });
+
+    loadAnnouncements();
   </script>
 </body>
 </html>
