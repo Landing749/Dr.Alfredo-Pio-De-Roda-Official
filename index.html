@@ -5,17 +5,74 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dr. Alfredo Pio De Roda Elementary School</title>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;margin:0;color:#222}
-    header{background:#2f66c7;color:#fff;padding:1.5rem;text-align:center}
-    main{padding:1.5rem;max-width:1000px;margin:0 auto}
-    .section{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:1rem}
-    .teacher-card{display:inline-block;width:180px;margin:8px;padding:10px;text-align:center;border-radius:8px}
-    .teacher-card img{width:96px;height:96px;border-radius:50%;object-fit:cover}
-    form{max-width:460px;margin:0 auto;display:block}
-    input,select,button{width:100%;padding:10px;margin-top:8px;border-radius:6px;border:1px solid #ccc}
-    .btn{background:#2f66c7;color:#fff;border:none;cursor:pointer;padding:10px}
-    .btn-secondary{background:#28a745;color:#fff;border:none;cursor:pointer}
-    small{color:#666}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      color: #222;
+    }
+    header {
+      background: #2f66c7;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    main {
+      padding: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .section {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1rem;
+    }
+    .teacher-card {
+      display: inline-block;
+      width: 180px;
+      margin: 8px;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    .teacher-card img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    form {
+      max-width: 460px;
+      margin: 0 auto;
+      display: block;
+    }
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background: #2f66c7;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+    .btn-secondary {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    small {
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -25,16 +82,46 @@
   </header>
 
   <main>
+    <!-- Announcements -->
     <section class="section" id="announcement-section">
       <h2>Latest Announcement</h2>
       <div id="latest-announcement">Loading announcement…</div>
     </section>
 
+    <!-- About Us -->
+    <section class="section" id="about-section">
+      <h2>About Us</h2>
+      <p>
+        Dr. Alfredo Pio De Roda Elementary School is a public institution dedicated to fostering
+        holistic growth and academic excellence among young learners. 
+        Our school takes pride in nurturing the values of discipline, integrity, and compassion,
+        preparing students to become responsible citizens and lifelong learners.
+      </p>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="section" id="vision-mission-section">
+      <h2>Vision & Mission</h2>
+      <h3>Vision</h3>
+      <p>
+        A learning community committed to excellence, empowering every learner to reach their
+        full potential in a safe, inclusive, and supportive environment.
+      </p>
+      <h3>Mission</h3>
+      <p>
+        To provide quality basic education through effective teaching, continuous innovation,
+        and active community involvement — ensuring every child develops the knowledge, skills,
+        and values necessary for success in life.
+      </p>
+    </section>
+
+    <!-- Faculty -->
     <section class="section" id="teachers-section">
       <h2>Faculty & Staff</h2>
       <div id="teachers">Loading teachers…</div>
     </section>
 
+    <!-- Enrollment -->
     <section class="section" id="enroll-section">
       <h2>Online Enrollment</h2>
       <form id="enrollForm">
@@ -50,7 +137,7 @@
           <option value="G5">G5</option>
           <option value="G6">G6</option>
         </select>
-        <input id="lrn" type="text" placeholder="LRN (Learner Reference Number) — used as the record key" required>
+        <input id="lrn" type="text" placeholder="LRN (Learner Reference Number)" required>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button type="button" class="btn-secondary" id="uploadDocsBtn">Upload Required Documents</button>
         </div>
@@ -79,11 +166,12 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    // Announcements
     const annQuery = query(ref(db, "announcements"), orderByChild("date"), limitToLast(1));
     onValue(annQuery, snap => {
       const container = document.getElementById("latest-announcement");
       if (!snap.exists()) {
-        container.innerHTML = "<em>No announcements yet.</em>";
+        container.innerHTML = "<strong>No Announcements Yet!</strong>";
         return;
       }
       let html = "";
@@ -97,6 +185,7 @@
       container.innerHTML = html;
     });
 
+    // Teachers
     onValue(ref(db, "teachers"), snap => {
       const container = document.getElementById("teachers");
       container.innerHTML = "";
@@ -115,6 +204,7 @@
       });
     });
 
+    // Enrollment
     const enrollForm = document.getElementById("enrollForm");
     enrollForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -127,14 +217,18 @@
         showMsg("Please select a grade and enter an LRN.", true);
         return;
       }
+
       const payload = {
-        parentName, studentName, grade, lrn,
+        parentName,
+        studentName,
+        grade,
+        lrn,
         date: new Date().toISOString()
       };
 
       try {
         await set(ref(db, `enrollments/${grade}/${lrn}`), payload);
-        showMsg("Enrollment submitted.  Upload required documents using the button.", false);
+        showMsg("Enrollment submitted successfully.", false);
         enrollForm.reset();
       } catch (err) {
         console.error(err);
@@ -146,20 +240,20 @@
       window.open("https://forms.gle/YOUR_GOOGLE_FORM_LINK", "_blank");
     });
 
-    function showMsg(text, isError){
+    function showMsg(text, isError) {
       const el = document.getElementById("enroll-msg");
       el.style.color = isError ? "crimson" : "green";
       el.textContent = text;
-      setTimeout(()=> el.textContent = "", 7000);
+      setTimeout(() => (el.textContent = ""), 7000);
     }
 
-    function escapeHtml(s){
+    function escapeHtml(s) {
       if (!s) return "";
       return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
         .replaceAll("'", "&#39;");
     }
   </script>
