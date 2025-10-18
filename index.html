@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dr. Alfredo Pio De Roda Elementary School</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;margin:0;color:#222}
+    header{background:#2f66c7;color:#fff;padding:1.5rem;text-align:center}
+    main{padding:1.5rem;max-width:1000px;margin:0 auto}
+    .section{background:#fff;padding:1rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:1rem}
+    .teacher-card{display:inline-block;width:180px;margin:8px;padding:10px;text-align:center;border-radius:8px}
+    .teacher-card img{width:96px;height:96px;border-radius:50%;object-fit:cover}
+    form{max-width:460px;margin:0 auto;display:block}
+    input,select,button{width:100%;padding:10px;margin-top:8px;border-radius:6px;border:1px solid #ccc}
+    .btn{background:#2f66c7;color:#fff;border:none;cursor:pointer;padding:10px}
+    .btn-secondary{background:#28a745;color:#fff;border:none;cursor:pointer}
+    small{color:#666}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dr. Alfredo Pio De Roda Elementary School</h1>
+    <div>Official School Portal</div>
+  </header>
+
+  <main>
+    <section class="section" id="announcement-section">
+      <h2>Latest Announcement</h2>
+      <div id="latest-announcement">Loading announcement…</div>
+    </section>
+
+    <section class="section" id="teachers-section">
+      <h2>Faculty & Staff</h2>
+      <div id="teachers">Loading teachers…</div>
+    </section>
+
+    <section class="section" id="enroll-section">
+      <h2>Online Enrollment</h2>
+      <form id="enrollForm">
+        <input id="parentName" type="text" placeholder="Name of Parent" required>
+        <input id="studentName" type="text" placeholder="Name of Student" required>
+        <select id="gradeLevel" required>
+          <option value="">Select Grade Level</option>
+          <option value="Kinder">Kinder</option>
+          <option value="G1">G1</option>
+          <option value="G2">G2</option>
+          <option value="G3">G3</option>
+          <option value="G4">G4</option>
+          <option value="G5">G5</option>
+          <option value="G6">G6</option>
+        </select>
+        <input id="lrn" type="text" placeholder="LRN (Learner Reference Number) — used as the record key" required>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="button" class="btn-secondary" id="uploadDocsBtn">Upload Required Documents</button>
+        </div>
+        <button class="btn" type="submit">Submit Enrollment</button>
+      </form>
+      <div id="enroll-msg" style="margin-top:8px"></div>
+    </section>
+  </main>
+
+  <!-- Firebase (modular) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAYpXaL6oNhuX3LWAinx7LmhrAozfVzCvk",
+      authDomain: "dr-de-roda-lr-portal.firebaseapp.com",
+      databaseURL: "https://dr-de-roda-lr-portal-default-rtdb.firebaseio.com/",
+      projectId: "dr-de-roda-lr-portal",
+      storageBucket: "dr-de-roda-lr-portal.firebasestorage.app",
+      messagingSenderId: "1074205661200",
+      appId: "1:1074205661200:web:f42d20c85f8600728cd295",
+      measurementId: "G-MJF7Z2DYHS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const annQuery = query(ref(db, "announcements"), orderByChild("date"), limitToLast(1));
+    onValue(annQuery, snap => {
+      const container = document.getElementById("latest-announcement");
+      if (!snap.exists()) {
+        container.innerHTML = "<em>No announcements yet.</em>";
+        return;
+      }
+      let html = "";
+      snap.forEach(child => {
+        const a = child.val();
+        const d = a.date ? new Date(a.date).toLocaleString() : "";
+        html += `<h3>${escapeHtml(a.title || "")}</h3>
+                 <p>${escapeHtml(a.message || a.content || "")}</p>
+                 <small>${escapeHtml(d)}</small>`;
+      });
+      container.innerHTML = html;
+    });
+
+    onValue(ref(db, "teachers"), snap => {
+      const container = document.getElementById("teachers");
+      container.innerHTML = "";
+      if (!snap.exists()) {
+        container.innerHTML = "<em>No teachers yet.</em>";
+        return;
+      }
+      snap.forEach(child => {
+        const t = child.val();
+        container.innerHTML += `
+          <div class="teacher-card">
+            <img src="${escapeHtml(t.photo || 'https://via.placeholder.com/96')}" alt="teacher photo">
+            <div><strong>${escapeHtml(t.name || '')}</strong></div>
+            <div><small>${escapeHtml(t.position || '')}</small></div>
+          </div>`;
+      });
+    });
+
+    const enrollForm = document.getElementById("enrollForm");
+    enrollForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const parentName = document.getElementById("parentName").value.trim();
+      const studentName = document.getElementById("studentName").value.trim();
+      const grade = document.getElementById("gradeLevel").value;
+      const lrn = document.getElementById("lrn").value.trim();
+
+      if (!grade || !lrn) {
+        showMsg("Please select a grade and enter an LRN.", true);
+        return;
+      }
+      const payload = {
+        parentName, studentName, grade, lrn,
+        date: new Date().toISOString()
+      };
+
+      try {
+        await set(ref(db, `enrollments/${grade}/${lrn}`), payload);
+        showMsg("Enrollment submitted.  Upload required documents using the button.", false);
+        enrollForm.reset();
+      } catch (err) {
+        console.error(err);
+        showMsg("Failed to submit enrollment. Check console.", true);
+      }
+    });
+
+    document.getElementById("uploadDocsBtn").addEventListener("click", () => {
+      window.open("https://forms.gle/YOUR_GOOGLE_FORM_LINK", "_blank");
+    });
+
+    function showMsg(text, isError){
+      const el = document.getElementById("enroll-msg");
+      el.style.color = isError ? "crimson" : "green";
+      el.textContent = text;
+      setTimeout(()=> el.textContent = "", 7000);
+    }
+
+    function escapeHtml(s){
+      if (!s) return "";
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'", "&#39;");
+    }
+  </script>
+</body>
+</html>
