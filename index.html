@@ -73,6 +73,47 @@
     small {
       color: #666;
     }
+    .social-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  margin: 1rem auto;
+}
+
+.social-card h3 {
+  margin-bottom: 15px;
+  color: #004aad;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.social-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+/* Platform Colors */
+.social-btn.fb { background: #1877f2; }
+.social-btn.tw { background: #1da1f2; }
+.social-btn.ig { background: #c32aa3; }
+.social-btn.mail { background: #dd4b39; }
+
+.social-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
   </style>
 </head>
 <body>
@@ -145,6 +186,15 @@
       </form>
       <div id="enroll-msg" style="margin-top:8px"></div>
     </section>
+    <div class="social-card">
+  <h3>Connect With Us</h3>
+  <div class="social-links">
+    <a href="https://facebook.com/YourPage" target="_blank" class="social-btn fb">Facebook</a>
+    <a href="https://twitter.com/YourPage" target="_blank" class="social-btn tw">Twitter</a>
+    <a href="https://instagram.com/YourPage" target="_blank" class="social-btn ig">Instagram</a>
+    <a href="mailto:school@email.com" class="social-btn mail">Email</a>
+  </div>
+</div>
   </main>
 
   <!-- Firebase (modular) -->
